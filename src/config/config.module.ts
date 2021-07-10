@@ -18,7 +18,13 @@ const nodeEnvFile = process.env.NODE_ENV
         NODE_ENV: Joi.string()
           .valid('test', 'development', 'staging', 'production')
           .default('development'),
-        PORT: Joi.number().default(3000)
+        PORT: Joi.number().default(3000),
+        DB_CONNECTION: Joi.string(),
+        DB_DATABASE: Joi.string(),
+        DB_HOST: Joi.string(),
+        DB_PORT: Joi.number(),
+        DB_USERNAME: Joi.string(),
+        DB_PASSWORD: Joi.string(),
       }),
     }),
   ],
