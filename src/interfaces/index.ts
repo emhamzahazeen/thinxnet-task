@@ -1,10 +1,11 @@
 export interface IIssue {
   description: string;
-  userId: string;
+  userId: number;
+  isResolved?: boolean;
 }
 
 export interface IIssueRecord extends IIssue {
-  id: string;
+  id: number;
 }
 
 export interface IUser {
@@ -12,14 +13,14 @@ export interface IUser {
 }
 
 export interface IUserRecord extends IUser {
-  id: string;
+  id: number;
 }
 
 export interface ISupportAgent {
   isActive: boolean;
-  activeIssueId: string;
+  activeIssueId?: string;
 }
 
 export interface ISupportAgentRecord extends ISupportAgent {
-  id: string;
+  id: number;
 }

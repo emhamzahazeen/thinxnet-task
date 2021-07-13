@@ -15,9 +15,7 @@ const nodeEnvFile = process.env.NODE_ENV
       isGlobal: true,
       envFilePath: [...nodeEnvFile, defaultEnvFile],
       validationSchema: Joi.object({
-        NODE_ENV: Joi.string()
-          .valid('test', 'development', 'staging', 'production')
-          .default('development'),
+        NODE_ENV: Joi.string().valid('test', 'development', 'staging', 'production').default('development'),
         PORT: Joi.number().default(3000),
         DB_CONNECTION: Joi.string(),
         DB_DATABASE: Joi.string(),
@@ -25,6 +23,7 @@ const nodeEnvFile = process.env.NODE_ENV
         DB_PORT: Joi.number(),
         DB_USERNAME: Joi.string(),
         DB_PASSWORD: Joi.string(),
+        QUEUE_PROCESS_DELAY: Joi.string(),
       }),
     }),
   ],

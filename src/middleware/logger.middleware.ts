@@ -16,7 +16,7 @@ export class LoggerMiddleware implements NestMiddleware {
         return;
       }
 
-      this.logger.log(
+      this.logger.debug(
         `${method} ${originalUrl} ${statusCode} ${contentLength} q: ${JSON.stringify(
           params,
         )} b: ${JSON.stringify(body)}`,

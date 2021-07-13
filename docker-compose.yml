@@ -1,0 +1,52 @@
+version: '3'
+services:
+  mysql:
+    image: 'mysql:8.0'
+    ports:
+      - '${FORWARD_DB_PORT:-3306}:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+    volumes:
+      - 'thinxnetmysql:/var/lib/mysql'
+    networks:
+      - thinxnet
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping" ]
+
+  phpmyadmin:
+    image: 'phpmyadmin/phpmyadmin:latest'
+    ports:
+      - '${FORWARD_PHPMYADMIN_PORT:-9700}:80'
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      PMA_ARBITRARY: 1
+    networks:
+      - thinxnet
+    depends_on:
+      - mysql
+  redis:
+    image: 'redis:alpine'
+    ports:
+      - '${FORWARD_REDIS_PORT:-6379}:6379'
+    volumes:
+      - 'thinxnetredis:/data'
+    networks:
+      - thinxnet
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      retries: 3
+      timeout: 5s
+networks:
+  thinxnet:
+    driver: bridge
+volumes:
+  thinxnetredis:
+    driver: local
+  thinxnetmysql:
+    driver: local

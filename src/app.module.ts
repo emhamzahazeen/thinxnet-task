@@ -1,6 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { BullModule, BullModuleOptions } from '@nestjs/bull';
 
 import { ServiceConfigModule } from './config/config.module';
 import { DomainModule } from './domain/domain.module';
@@ -26,6 +27,17 @@ import { LoggerMiddleware } from './middleware/logger.middleware';
           autoLoadEntities: true,
           synchronize: true,
         } as TypeOrmModuleOptions),
+    }),
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) =>
+        ({
+          redis: {
+            host: configService.get<string>('FORWARD_REDIS_HOST'),
+            port: configService.get<number>('FORWARD_REDIS_PORT'),
+          },
+        } as BullModuleOptions),
     }),
   ],
 })

@@ -4,6 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { UsersService } from './domain/user/user.service';
 import seeder from './seeder';
+import { SupportAgentService } from './domain/support-agent/support-agent.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,7 +18,6 @@ async function bootstrap() {
     `${configService.get('SERVICE_NAME')} running at http://localhost:${port}`,
   );
 
-  const userService = app.get(UsersService);
-  await seeder(userService);
+  await seeder(app.get(UsersService), app.get(SupportAgentService));
 }
 bootstrap();

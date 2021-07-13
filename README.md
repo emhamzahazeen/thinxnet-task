@@ -9,10 +9,18 @@ Framework: NestJs
 ```bash
 $ npm install
 ```
+## Running the dependencies
+
+```bash
+$ docker compose up
+
+```
 
 ## Running the app
 
 ```bash
+cp .env.sample .env
+
 # development
 $ npm run start
 
@@ -26,12 +34,11 @@ $ npm run start:prod
 ## Test
 
 ```bash
-# unit tests
-$ npm run test
-
 # e2e tests
 $ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
+## Limitations
+- For the purpose of the task the queue system is not synchronized with the database on restarts
+- Limited tests due to limited time.
+- Due to limited time api responses only contain http-code, in real systems the cqrs implementation demands an internal response management system.
+- Http input validation is lacking at the api layer.
